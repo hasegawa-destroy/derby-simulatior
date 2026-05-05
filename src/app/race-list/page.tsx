@@ -10,10 +10,10 @@ const races = [
 
 export default function RaceListPage() {
     return (
-        <div className="max-w-2xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">開催中のレース</h1>
+        <div className="mx-full p-4">
+            <p className="text-2xl font-bold text-center mb-6">開催中のレース</p>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex h-full flex-col gap-4">
                 {races.map((race) => (
                     <RaceCard key={race.id} race={race} />
                 ))}
