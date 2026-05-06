@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from 'react'
+import { VoteContent } from './components/vote';
+import { CheckContent } from './components/check';
 import { VoteDialog } from "../components/ui/voteDialog";
 
 export default function VotePage() {
@@ -15,6 +17,8 @@ export default function VotePage() {
     ]
 
     const [open, setOpen] = useState(false)
+
+    const [tab, setTab] = useState<'list' | 'vote' | 'check'>('list')
 
     return (
         <div className="mx-full">
@@ -37,42 +41,48 @@ export default function VotePage() {
 
             {/* コンテンツリスト */}
             <div className="flex h-18 bg-primary">
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <p className="text-center text-white">出走表</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <p className="text-center text-white">投票</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center">
-                    <p className="text-center text-white">照会</p>
-                </div>
+                <button
+                    onClick={() => setTab('list')}
+                    className="flex-1 flex items-center justify-center"
+                >
+                    <p className="text-white">出走表</p>
+                </button>
+
+                <button
+                    onClick={() => setTab('vote')}
+                    className="flex-1 flex items-center justify-center"
+                >
+                    <p className="text-white">投票</p>
+                </button>
+
+                <button
+                    onClick={() => setTab('check')}
+                    className="flex-1 flex items-center justify-center"
+                >
+                    <p className="text-white">照会</p>
+                </button>
             </div>
 
             {/* コンテンツ */}
             <div className="p-4">
-                <div>
-                    <p>単勝</p>
-
-                    <div className="flex items-center justify-center py-2 border-b-2">
-                        <p>人気順</p>
-                    </div>
-
+                {tab === 'list' && (
                     <div>
-                        {runners.map((runner, index) => (
-                            <div key={runner.name} className="border-b-2 border-gray-300">
-                                <button onClick={() => setOpen(true)} className='w-full h-full flex justify-between w-full h-full px-2 py-4 '>
-                                    <div className="flex gap-4">
-                                        <p>{index + 1}</p>
-                                        <p>{runner.name}</p>
-                                    </div>
-                                    <div>
-                                        <p>{runner.odds}</p>
-                                    </div>
-                                </button>
-                            </div>
-                        ))}
+                        <p>出走表</p>
                     </div>
-                </div>
+                )}
+
+                {tab === 'vote' && (
+                    <VoteContent
+                        runners={runners}
+                        setOpen={setOpen}
+                    />
+                )}
+
+                {tab === 'check' && (
+                    <div>
+                        <CheckContent />
+                    </div>
+                )}
             </div>
 
             {/* ダイアログ */}
