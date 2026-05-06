@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from 'react'
+import { VoteDialog } from "../components/ui/voteDialog";
+
 export default function VotePage() {
 
     const race = { id: 1, name: "CL筋力杯", startTime: "14:50" }
@@ -11,6 +14,7 @@ export default function VotePage() {
         { name: "出走者4", odds: 3.7 },
     ]
 
+    const [open, setOpen] = useState(false)
 
     return (
         <div className="mx-full">
@@ -55,19 +59,24 @@ export default function VotePage() {
 
                     <div>
                         {runners.map((runner, index) => (
-                            <div key={runner.name} className="flex justify-between px-2 py-4 border-b-2 border-gray-300">
-                                <div className="flex gap-4">
-                                    <p>{index + 1}</p>
-                                    <p>{runner.name}</p>
-                                </div>
-                                <div>
-                                    <p>{runner.odds}</p>
-                                </div>
+                            <div key={runner.name} className="border-b-2 border-gray-300">
+                                <button onClick={() => setOpen(true)} className='w-full h-full flex justify-between w-full h-full px-2 py-4 '>
+                                    <div className="flex gap-4">
+                                        <p>{index + 1}</p>
+                                        <p>{runner.name}</p>
+                                    </div>
+                                    <div>
+                                        <p>{runner.odds}</p>
+                                    </div>
+                                </button>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
+
+            {/* ダイアログ */}
+            <VoteDialog open={open} onOpenChange={setOpen} />
 
         </div>
     )
