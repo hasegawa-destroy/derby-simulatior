@@ -18,9 +18,9 @@ export function RaceCard({ race }: { race: Race }) {
         <div className="flex rounded-lg w-full h-32 p-2 bg-white transition">
             <div className="flex flex-col items-center justify-center w-3/5 h-full">
                 <p className="text-lg font-semibold mb-2">{race.name}</p>
-                <div className="">
-                    <p className="text-sm text-gray-600">開始 {race.startTime}</p>
-                    <p className="text-sm text-gray-600">締切 6分</p>
+                <div>
+                    <p className="text-sm">開始 {race.startTime}</p>
+                    <p className="text-sm">締切 6分</p>
                 </div>
             </div>
 
