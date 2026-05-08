@@ -33,7 +33,7 @@ export function VoteContent({ runners, setOpen }: Props) {
                                 </div>
 
                                 <div>
-                                    <p>{runner.odds}</p>
+                                    <p>{runner.odds} 倍</p>
                                 </div>
                             </button>
 

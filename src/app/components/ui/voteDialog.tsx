@@ -34,7 +34,7 @@ export function VoteDialog({ open, onOpenChange }: Props) {
                             {/* 出走者情報 */}
                             <div className='flex justify-between'>
                                 <p>出走者1</p>
-                                <p>{odds}</p>
+                                <p>{odds} 倍</p>
                             </div>
 
                             {/* 賭けポイント */}

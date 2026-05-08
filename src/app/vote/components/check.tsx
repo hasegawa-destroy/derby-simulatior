@@ -20,7 +20,7 @@ export function CheckContent() {
             <div className="flex justify-between py-2 border-b-2 border-gray-300">
                 <div className='flex items-center justify-center gap-4'>
                     <p>出走者1</p>
-                    <p>1.4</p>
+                    <p>1.4倍</p>
                     <p>100pt</p>
                 </div>
                 <button onClick={() => setOpen(true)} className="px-4 py-2 bg-tertiary text-white rounded-full">変更</button>
