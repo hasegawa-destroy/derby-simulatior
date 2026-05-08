@@ -19,6 +19,12 @@ export default function VotePage() {
     const [open, setOpen] = useState(false)
 
     const [tab, setTab] = useState<'list' | 'vote' | 'check'>('list')
+    const tabClass = (name: string) =>
+        `flex-1 flex items-center justify-center transition-colors ${tab === name
+            ? 'bg-gray-600'
+            : 'bg-primary'
+        }`
+
 
     return (
         <div className="mx-full">
@@ -43,21 +49,21 @@ export default function VotePage() {
             <div className="flex h-18 bg-primary">
                 <button
                     onClick={() => setTab('list')}
-                    className="flex-1 flex items-center justify-center"
+                    className={tabClass('list')}
                 >
                     <p className="text-white">出走表</p>
                 </button>
 
                 <button
                     onClick={() => setTab('vote')}
-                    className="flex-1 flex items-center justify-center"
+                    className={tabClass('vote')}
                 >
                     <p className="text-white">投票</p>
                 </button>
 
                 <button
                     onClick={() => setTab('check')}
-                    className="flex-1 flex items-center justify-center"
+                    className={tabClass('check')}
                 >
                     <p className="text-white">照会</p>
                 </button>
