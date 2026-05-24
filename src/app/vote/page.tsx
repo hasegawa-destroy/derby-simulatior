@@ -1,20 +1,30 @@
 "use client";
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { VoteDialog } from "../components/ui/voteDialog";
 
 export default function VotePage() {
 
-    const race = { id: 1, name: "CL筋力杯", startTime: "14:50" }
+    const [data, setData] = useState<any>(null);
+
+    useEffect(() => {
+        async function fetchRace() {
+            const res = await fetch("/api/race/001");
+            const json = await res.json();
+
+            console.log("レース:", json);
+
+            setData(json);
+        }
+
+        fetchRace();
+    }, []);
+
+
+    // レース日の情報
     const todayState = { date: "2026年1月23日", weather: "曇" }
-    const runners = [
-        { name: "出走者1", odds: 1.4 },
-        { name: "出走者2", odds: 2.3 },
-        { name: "出走者3", odds: 2.8 },
-        { name: "出走者4", odds: 3.7 },
-    ]
 
     const [open, setOpen] = useState(false)
 
@@ -25,17 +35,21 @@ export default function VotePage() {
             : 'bg-primary'
         }`
 
+    if (!data) {
+        return <div>読み込み中...</div>;
+    }
+
 
     return (
         <div className="mx-full">
 
             {/* レース情報 */}
             <div className="p-4">
-                <p className="text-2xl font-bold mb-6">{race.name}</p>
+                <p className="text-2xl font-bold mb-6">{data.RaceName}</p>
 
                 <div className="flex gap-2">
-                    <p>開始 {race.startTime}</p>
-                    <p>締切 {race.startTime}</p>
+                    <p>開始 {data.StartTime}</p>
+                    <p>締切 {data.StartTime}</p>
                     <p>投票締切</p>
                 </div>
 
@@ -79,7 +93,7 @@ export default function VotePage() {
 
                 {tab === 'vote' && (
                     <VoteContent
-                        runners={runners}
+                        runners={data.runners}
                         setOpen={setOpen}
                     />
                 )}

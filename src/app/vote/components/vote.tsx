@@ -1,5 +1,7 @@
 type Runner = {
-    name: string
+    PK: string
+    SK: string
+    RunnerName: string
     odds: number
 }
 
@@ -21,7 +23,7 @@ export function VoteContent({ runners, setOpen }: Props) {
 
                 <div>
                     {runners.map((runner, index) => (
-                        <div key={runner.name} className="border-b-2 border-gray-300">
+                        <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
 
                             <button
                                 onClick={() => setOpen(true)}
@@ -29,11 +31,12 @@ export function VoteContent({ runners, setOpen }: Props) {
                             >
                                 <div className="flex gap-4">
                                     <p>{index + 1}</p>
-                                    <p>{runner.name}</p>
+                                    <p>{runner.RunnerName}</p>
                                 </div>
 
                                 <div>
-                                    <p>{runner.odds} 倍</p>
+                                    <p> 1.4倍</p>
+                                    {/* {runner.odds} */}
                                 </div>
                             </button>
 
