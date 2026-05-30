@@ -7,7 +7,20 @@ export async function GET(
     context: any
 ) {
     const { id } = await context.params;
-    const race = await getRace(id);
 
-    return NextResponse.json(race);
+    try {
+        const race = await getRace(id);
+
+        return NextResponse.json(race);
+    } catch (error) {
+        console.error("API Error:", error);
+
+        return NextResponse.json(
+            {
+                error: "Failed to fetch race",
+                detail: String(error),
+            },
+            { status: 500 }
+        );
+    }
 }
