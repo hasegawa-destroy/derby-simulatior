@@ -3,9 +3,9 @@
 import { RaceCard } from "./components/RaceCard"
 
 const races = [
-    { id: 1, name: "CL筋力杯", startTime: "14:50" },
-    { id: 2, name: "CL新卒杯", startTime: "15:10" },
-    { id: 3, name: "CLあいうえお杯", startTime: "15:30" },
+    { id: 1, name: "CL筋力杯", startTime: "14:50", number: "001" },
+    { id: 2, name: "CL新卒杯", startTime: "15:10", number: "002" },
+    { id: 3, name: "CLあいうえお杯", startTime: "15:30", number: "003" },
 ]
 
 export default function RaceListPage() {

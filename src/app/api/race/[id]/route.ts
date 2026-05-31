@@ -8,12 +8,6 @@ export async function GET(
 ) {
     const { id } = await context.params;
 
-    console.log({
-        region: process.env.DDB_REGION,
-        accessKeyExists: !!process.env.DDB_ACCESS_KEY_ID,
-        secretKeyExists: !!process.env.DDB_SECRET_ACCESS_KEY,
-    });
-
     try {
         const race = await getRace(id);
 

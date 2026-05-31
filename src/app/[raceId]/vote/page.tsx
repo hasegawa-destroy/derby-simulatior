@@ -1,17 +1,22 @@
 "use client";
 
 import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation';
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
-import { VoteDialog } from "../components/ui/voteDialog";
+import { VoteDialog } from "../../components/ui/voteDialog";
 
 export default function VotePage() {
 
+    const params = useParams();
+    const raceId = params.raceId as string;
+
     const [data, setData] = useState<any>(null);
 
+    // レース情報取得
     useEffect(() => {
         async function fetchRace() {
-            const res = await fetch("/api/race/001");
+            const res = await fetch(`/api/race/${raceId}`);
             const json = await res.json();
 
             console.log("レース:", json);
@@ -36,9 +41,8 @@ export default function VotePage() {
         }`
 
     if (!data) {
-        return <div>読み込み中...</div>;
+        return <div>レース情報読み込み中...</div>;
     }
-
 
     return (
         <div className="mx-full">

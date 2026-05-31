@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 type Race = {
     id: number
+    number: string
     name: string
     startTime: string
 }
@@ -11,7 +12,7 @@ export function RaceCard({ race }: { race: Race }) {
 
     // 投票ページボタン押下処理
     const handleClick = () => {
-        router.push("/vote");
+        router.push(`/${race.number}/vote`);
     };
 
     return (
