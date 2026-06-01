@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation';
+import { formatInTimeZone } from "date-fns-tz";
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { VoteDialog } from "../../components/ui/voteDialog";
@@ -26,7 +27,6 @@ export default function VotePage() {
         fetchRace();
     }, []);
 
-
     // レース日の情報
     const todayState = { date: "2026年1月23日", weather: "曇" }
 
@@ -44,6 +44,13 @@ export default function VotePage() {
         return <div>レース情報読み込み中...</div>;
     }
 
+    // フォーマット変更
+    const formattedStartTime = formatInTimeZone(
+        data.StartTime,
+        "Asia/Tokyo",
+        "HH時mm分"
+    );
+
     return (
         <div className="mx-full">
 
@@ -52,8 +59,8 @@ export default function VotePage() {
                 <p className="text-2xl font-bold mb-6">{data.RaceName}</p>
 
                 <div className="flex gap-2">
-                    <p>開始 {data.StartTime}</p>
-                    <p>締切 {data.StartTime}</p>
+                    <p className='text-sm'>開始 {formattedStartTime}</p>
+                    <p className='text-sm'>締切 {formattedStartTime}</p>
                     <p>投票締切</p>
                 </div>
 
