@@ -1,16 +1,12 @@
-type Runner = {
-    PK: string
-    SK: string
-    RunnerName: string
-    odds: number
-}
+import { Runner } from "@/types/runner"
 
 type Props = {
     runners: Runner[]
     setOpen: (open: boolean) => void
+    setSelectedRunner: (runner: Runner) => void
 }
 
-export function VoteContent({ runners, setOpen }: Props) {
+export function VoteContent({ runners, setOpen, setSelectedRunner }: Props) {
     return (
         <div className="p-4">
 
@@ -26,7 +22,10 @@ export function VoteContent({ runners, setOpen }: Props) {
                         <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
 
                             <button
-                                onClick={() => setOpen(true)}
+                                onClick={() => {
+                                    setSelectedRunner(runner);
+                                    setOpen(true)
+                                }}
                                 className="w-full flex justify-between px-2 py-4"
                             >
                                 <div className="flex gap-4">

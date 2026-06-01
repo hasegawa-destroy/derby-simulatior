@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { VoteDialog } from "../../components/ui/voteDialog";
+import { Runner } from '@/types/runner';
 
 export default function VotePage() {
 
@@ -19,8 +20,6 @@ export default function VotePage() {
             const res = await fetch(`/api/race/${raceId}`);
             const json = await res.json();
 
-            console.log("レース:", json);
-
             setData(json);
         }
 
@@ -32,6 +31,7 @@ export default function VotePage() {
     const todayState = { date: "2026年1月23日", weather: "曇" }
 
     const [open, setOpen] = useState(false)
+    const [selectedRunner, setSelectedRunner] = useState<Runner | null>(null);
 
     const [tab, setTab] = useState<'list' | 'vote' | 'check'>('list')
     const tabClass = (name: string) =>
@@ -89,19 +89,23 @@ export default function VotePage() {
 
             {/* コンテンツ */}
             <div className="p-4">
+                {/* 出走表 */}
                 {tab === 'list' && (
                     <div>
                         <p>出走表</p>
                     </div>
                 )}
 
+                {/* 投票 */}
                 {tab === 'vote' && (
                     <VoteContent
                         runners={data.runners}
                         setOpen={setOpen}
+                        setSelectedRunner={setSelectedRunner}
                     />
                 )}
 
+                {/* 照会 */}
                 {tab === 'check' && (
                     <div>
                         <CheckContent />
@@ -110,7 +114,7 @@ export default function VotePage() {
             </div>
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} />
+            <VoteDialog open={open} onOpenChange={setOpen} runner={selectedRunner} />
 
         </div>
     )

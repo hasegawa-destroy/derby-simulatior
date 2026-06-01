@@ -2,16 +2,19 @@
 
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
+import { Runner } from '@/types/runner'
 
 type Props = {
     open: boolean
     onOpenChange: (open: boolean) => void
+    runner: Runner | null
 }
 
-export function VoteDialog({ open, onOpenChange }: Props) {
+export function VoteDialog({ open, onOpenChange, runner }: Props) {
     const [bet, setBet] = useState('')
 
-    const odds = 1.4
+    const runnerName = runner?.RunnerName
+    const odds = runner?.Odds ?? 1
 
     // 数値変換（空文字対策）
     const betNumber = Number(bet) || 0
@@ -20,7 +23,7 @@ export function VoteDialog({ open, onOpenChange }: Props) {
     const profit = payout - betNumber
 
     return (
-        <Dialog.Root open={open} onOpenChange={onOpenChange}>
+        <Dialog.Root open={open} onOpenChange={onOpenChange} >
             <Dialog.Portal>
 
                 <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -33,7 +36,7 @@ export function VoteDialog({ open, onOpenChange }: Props) {
 
                             {/* 出走者情報 */}
                             <div className='flex justify-between'>
-                                <p>出走者1</p>
+                                <p>{runnerName}</p>
                                 <p>{odds} 倍</p>
                             </div>
 
