@@ -54,6 +54,14 @@ export default function VotePage() {
     return (
         <div className="mx-full">
 
+            {/* ポイント残高 */}
+            <div className='bg-[#3E3F43] px-4 py-6 border-t-2 border-gray-500'>
+                <div className='flex justify-between items-center'>
+                    <p className='text-secondary'>ポイント残高</p>
+                    <p className='text-secondary'>100 pt</p>
+                </div>
+            </div>
+
             {/* レース情報 */}
             <div className="p-4">
                 <p className="text-2xl font-bold mb-6">{data.RaceName}</p>

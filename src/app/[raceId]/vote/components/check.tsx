@@ -50,7 +50,7 @@ export function CheckContent() {
             {votes.map((vote) => (
                 <div key={`${vote.PK}-${vote.SK}`} className="w-full flex gap-8 justify-between py-2 border-b-2 border-gray-300">
                     {/* テキスト */}
-                    <div className='w-full flex justify-between items-center justify-center'>
+                    <div className='w-full flex justify-between items-center'>
                         <div className="flex items-center gap-4 flex-1">
                             <p>{`${vote.RunnerName}`}</p>
                             <p>1.4倍</p>
