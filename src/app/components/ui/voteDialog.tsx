@@ -13,7 +13,6 @@ type Props = {
 export function VoteDialog({ open, onOpenChange, runner }: Props) {
     const [bet, setBet] = useState('')
 
-    const runnerName = runner?.RunnerName
     const odds = runner?.Odds ?? 1
 
     // 数値変換（空文字対策）
@@ -21,6 +20,24 @@ export function VoteDialog({ open, onOpenChange, runner }: Props) {
 
     const payout = Math.floor(betNumber * odds)
     const profit = payout - betNumber
+
+    // 投票
+    const handleVote = async (betAmount: number) => {
+        const vote = {
+            PK: "RACE001#USER001",
+            SK: `${runner?.SK}`,
+            BetAmount: betAmount,
+            RunnerName: `${runner?.RunnerName}`,
+        };
+
+        await fetch("/api/vote", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(vote),
+        });
+    };
 
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange} >
@@ -36,7 +53,7 @@ export function VoteDialog({ open, onOpenChange, runner }: Props) {
 
                             {/* 出走者情報 */}
                             <div className='flex justify-between'>
-                                <p>{runnerName}</p>
+                                <p>{`${runner?.RunnerName}`}</p>
                                 <p>{odds} 倍</p>
                             </div>
 
@@ -76,7 +93,10 @@ export function VoteDialog({ open, onOpenChange, runner }: Props) {
                         {/* ボタン */}
                         <div className='flex flex-col gap-2'>
                             <button
-                                onClick={() => onOpenChange(false)}
+                                onClick={() => {
+                                    handleVote(betNumber)
+                                    onOpenChange(false)
+                                }}
                                 className="px-4 py-2 bg-tertiary text-white rounded-full"
                             >
                                 確定

@@ -48,13 +48,22 @@ export function CheckContent() {
 
             {/* 投票一覧 */}
             {votes.map((vote) => (
-                <div key={`${vote.PK}-${vote.SK}`} className="flex justify-between py-2 border-b-2 border-gray-300">
-                    <div className='flex items-center justify-center gap-4'>
-                        <p>{`${vote.RunnerName}`}</p>
-                        <p>1.4倍</p>
-                        <p>{`${vote.BetAmount}`}</p>
+                <div key={`${vote.PK}-${vote.SK}`} className="w-full flex gap-8 justify-between py-2 border-b-2 border-gray-300">
+                    {/* テキスト */}
+                    <div className='w-full flex justify-between items-center justify-center'>
+                        <div className="flex items-center gap-4 flex-1">
+                            <p>{`${vote.RunnerName}`}</p>
+                            <p>1.4倍</p>
+                        </div>
+                        <div>
+                            <p className='text-right'>{`${vote.BetAmount} pt`}</p>
+                        </div>
                     </div>
-                    <button onClick={() => setOpen(true)} className="px-4 py-2 bg-tertiary text-white rounded-full">変更</button>
+
+                    {/* 変更ボタン */}
+                    <div className='w-2/5'>
+                        <button onClick={() => setOpen(true)} className="px-4 py-2 bg-tertiary text-white rounded-full">変更</button>
+                    </div>
                 </div>
             ))}
 

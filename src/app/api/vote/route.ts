@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getVote } from "@/lib/dynamodb/vote";
+import { getVote, putVote } from "@/lib/dynamodb/vote";
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
@@ -17,4 +17,14 @@ export async function GET(request: NextRequest) {
 
     const votes = await getVote(raceId, userId, runnerId);
     return NextResponse.json(votes);
+}
+
+export async function POST(request: NextRequest) {
+    const body = await request.json();
+
+    await putVote(body);
+
+    return NextResponse.json({
+        success: true,
+    });
 }

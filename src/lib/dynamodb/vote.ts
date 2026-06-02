@@ -1,4 +1,4 @@
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "./client";
 import { Vote } from "@/types/vote";
 
@@ -19,4 +19,34 @@ export async function getVote(raceId: string, userId: string, runnerId: string) 
 
     const items = (result.Items ?? []) as Vote[];
     return items;
+}
+
+export async function putVote(vote: Vote) {
+    // await db.send(
+    //     new PutCommand({
+    //         TableName: TABLE_NAME,
+    //         Item: vote,
+    //     })
+    // );
+
+    await db.send(
+        new UpdateCommand({
+            TableName: "Vote",
+            Key: {
+                PK: vote.PK,
+                SK: vote.SK,
+            },
+            UpdateExpression: `
+      SET
+        BetAmount = if_not_exists(BetAmount, :zero) + :addAmount,
+        RunnerName = if_not_exists(RunnerName, :runnerName)
+    `,
+            ExpressionAttributeValues: {
+                ":zero": 0,
+                ":addAmount": vote.BetAmount,
+                ":runnerName": vote.RunnerName,
+            },
+            ReturnValues: "ALL_NEW",
+        })
+    );
 }
