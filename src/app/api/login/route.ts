@@ -1,5 +1,6 @@
 import { login } from "@/lib/dynamodb/login";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
@@ -11,6 +12,10 @@ export async function POST(request: NextRequest) {
             { status: 401 }
         );
     }
+
+    // cookieにデータを設定
+    const cookieStore = await cookies();
+    cookieStore.set("SK", user.SK);
 
     return Response.json({
         success: true,

@@ -7,13 +7,28 @@ import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { VoteDialog } from "../../components/ui/voteDialog";
 import { Runner } from '@/types/runner';
+import { User } from '@/types/user';
 
 export default function VotePage() {
 
     const params = useParams();
     const raceId = params.raceId as string;
 
+    const [user, setUser] = useState<User | null>(null);
     const [data, setData] = useState<any>(null);
+
+    // TODO: 遷移のたびに叩かない
+    // ユーザー情報取得
+    useEffect(() => {
+        async function fetchUser() {
+            const res = await fetch(`/api/user`);
+            const json = await res.json();
+
+            setUser(json);
+        }
+
+        fetchUser();
+    }, []);
 
     // レース情報取得
     useEffect(() => {
@@ -58,7 +73,7 @@ export default function VotePage() {
             <div className='bg-[#3E3F43] px-4 py-6 border-t-2 border-gray-500'>
                 <div className='flex justify-between items-center'>
                     <p className='text-secondary'>ポイント残高</p>
-                    <p className='text-secondary'>100 pt</p>
+                    <p className='text-secondary'>{user?.Point ?? 0} pt</p>
                 </div>
             </div>
 
