@@ -1,21 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { RaceCard } from "./components/RaceCard"
-
-const races = [
-    { id: 1, name: "CL筋力杯", startTime: "14:50", number: "001" },
-    { id: 2, name: "CL新卒杯", startTime: "15:10", number: "002" },
-    { id: 3, name: "CLあいうえお杯", startTime: "15:30", number: "003" },
-]
+import { Race } from "@/types/race";
 
 export default function RaceListPage() {
+
+    // レース情報取得
+    const [races, setRaces] = useState<Race[] | null>([]);
+    useEffect(() => {
+        async function fetchRace() {
+            const res = await fetch(`/api/races`);
+            const json = await res.json();
+
+            setRaces(json);
+        }
+
+        fetchRace();
+    }, []);
+
+    if (races == null) {
+        return <div>レース読み込み中...</div>
+    }
+
     return (
         <div className="mx-full p-4">
             <p className="text-2xl font-bold text-center mb-6">開催中のレース</p>
 
             <div className="flex h-full flex-col gap-4">
                 {races.map((race) => (
-                    <RaceCard key={race.id} race={race} />
+                    <RaceCard key={`${race.PK}#${race.SK}`} race={race} />
                 ))}
             </div>
         </div>

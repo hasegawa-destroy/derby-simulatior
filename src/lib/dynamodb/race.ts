@@ -1,7 +1,22 @@
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "./client";
 
 const TABLE_NAME = "Race";
+
+export async function getRaces() {
+    const result = await db.send(
+        new ScanCommand({
+            TableName: TABLE_NAME,
+            FilterExpression: "SK = :sk",
+            ExpressionAttributeValues: {
+                ":sk": "META",
+            },
+        })
+    );
+
+    const races = result.Items ?? [];
+    return races;
+}
 
 export async function getRace(raceId: string) {
     const result = await db.send(

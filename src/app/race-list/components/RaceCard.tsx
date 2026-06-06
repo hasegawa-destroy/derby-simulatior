@@ -1,26 +1,30 @@
+import { Race } from "@/types/race";
+import { formatInTimeZone } from "date-fns-tz";
 import { useRouter } from "next/navigation";
-
-type Race = {
-    id: number
-    number: string
-    name: string
-    startTime: string
-}
 
 export function RaceCard({ race }: { race: Race }) {
     const router = useRouter();
 
     // 投票ページボタン押下処理
     const handleClick = () => {
-        router.push(`/${race.number}/vote`);
+        const raceId = race.PK.split("#")[1];
+        router.push(`/${raceId}/vote`);
     };
+
+    // フォーマット変更
+    const formattedStartTime = formatInTimeZone(
+        race.StartTime,
+        "Asia/Tokyo",
+        "HH時mm分"
+    );
+
 
     return (
         <div className="flex rounded-lg w-full h-32 p-2 bg-white transition">
             <div className="flex flex-col items-center justify-center w-3/5 h-full">
-                <p className="text-lg font-semibold mb-2">{race.name}</p>
+                <p className="text-lg font-semibold mb-2">{race.RaceName}</p>
                 <div>
-                    <p className="text-sm">開始 {race.startTime}</p>
+                    <p className="text-sm">開始 {formattedStartTime}</p>
                     <p className="text-sm">締切 6分</p>
                 </div>
             </div>
