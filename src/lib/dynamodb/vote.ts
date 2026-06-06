@@ -31,7 +31,7 @@ export async function putVote(vote: Vote) {
 
     await db.send(
         new UpdateCommand({
-            TableName: "Vote",
+            TableName: TABLE_NAME,
             Key: {
                 PK: vote.PK,
                 SK: vote.SK,
