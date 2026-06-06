@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getVote, putVote } from "@/lib/dynamodb/vote";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
 
+    const userId = (await cookies()).get("SK")?.value;
     const raceId = searchParams.get("raceId");
-    const userId = searchParams.get("userId");
     const runnerId = searchParams.get("runnerId");
 
     if (!raceId || !userId || !runnerId) {
@@ -22,7 +23,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    await putVote(body);
+    // ユーザーIDを追加
+    const userId = (await cookies()).get("SK")?.value;
+    const vote = {
+        ...body,
+        PK: `${body.PK}#USER${userId}`,
+    };
+
+    // 投票
+    await putVote(vote);
 
     return NextResponse.json({
         success: true,

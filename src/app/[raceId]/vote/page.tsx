@@ -138,13 +138,13 @@ export default function VotePage() {
                 {/* 照会 */}
                 {tab === 'check' && (
                     <div>
-                        <CheckContent />
+                        <CheckContent raceId={raceId} />
                     </div>
                 )}
             </div>
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={selectedRunner} />
+            <VoteDialog open={open} onOpenChange={setOpen} runner={selectedRunner} raceId={raceId} />
 
         </div>
     )

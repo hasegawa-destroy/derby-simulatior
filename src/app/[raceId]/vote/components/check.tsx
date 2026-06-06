@@ -3,14 +3,18 @@ import { VoteDialog } from "@/app/components/ui/voteDialog";
 import { Vote } from '@/types/vote';
 import { Runner } from '@/types/runner';
 
-export function CheckContent() {
+type Props = {
+    raceId: string
+}
+
+export function CheckContent({ raceId }: Props) {
     const [open, setOpen] = useState(false)
 
     // 投票取得
     const [votes, setVotes] = useState<Vote[]>([])
     useEffect(() => {
         fetch(
-            "/api/vote?raceId=001&userId=001&runnerId=001"
+            `/api/vote?raceId=${raceId}&runnerId=001`
         )
             .then((res) => res.json())
             .then(setVotes);
@@ -20,7 +24,7 @@ export function CheckContent() {
     const [runner, setRunner] = useState<Runner>()
     useEffect(() => {
         fetch(
-            `/api/runner?raceId=001&runnerId=001`
+            `/api/runner?raceId=${raceId}&runnerId=001`
         )
             .then((res) => res.json())
             .then(setRunner);
@@ -69,7 +73,7 @@ export function CheckContent() {
 
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} />
+            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} raceId={raceId} />
         </div>
     )
 }
