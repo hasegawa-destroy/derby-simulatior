@@ -27,6 +27,7 @@ export function VoteDialog({ open, onOpenChange, runner, raceId }: Props) {
         const vote = {
             PK: `RACE${raceId}`,
             SK: `${runner?.SK}`,
+            RaceId: `RACE${raceId}`,
             BetAmount: betAmount,
             RunnerName: `${runner?.RunnerName}`,
         };

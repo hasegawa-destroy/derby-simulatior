@@ -2,11 +2,17 @@ import { Runner } from "@/types/runner"
 
 type Props = {
     runners: Runner[]
+    odds: { runnerId: string; odds: number }[]
     setOpen: (open: boolean) => void
     setSelectedRunner: (runner: Runner) => void
 }
 
-export function VoteContent({ runners, setOpen, setSelectedRunner }: Props) {
+export function VoteContent({ runners, odds, setOpen, setSelectedRunner }: Props) {
+    // オッズ紐づけ
+    const oddsMap = Object.fromEntries(
+        odds.map(o => [o.runnerId, o.odds])
+    );
+
     return (
         <div className="p-4">
 
@@ -34,7 +40,7 @@ export function VoteContent({ runners, setOpen, setSelectedRunner }: Props) {
                                 </div>
 
                                 <div>
-                                    <p>{runner?.Odds ?? 1.1} 倍</p>
+                                    <p>{(oddsMap[runner.SK] ?? 1.1).toFixed(1)} 倍</p>
                                 </div>
                             </button>
 

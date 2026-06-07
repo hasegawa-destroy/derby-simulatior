@@ -16,6 +16,10 @@ export default function VotePage() {
 
     const [user, setUser] = useState<User | null>(null);
     const [data, setData] = useState<any>(null);
+    const [odds, setOdds] = useState<
+        { runnerId: string; odds: number }[]
+    >([]);
+
 
     // TODO: 遷移のたびに叩かない
     // ユーザー情報取得
@@ -41,6 +45,19 @@ export default function VotePage() {
 
         fetchRace();
     }, []);
+
+    // オッズ取得
+    useEffect(() => {
+        async function fetchOdds() {
+            const res = await fetch(`/api/odds?raceId=${raceId}`);
+            const json = await res.json();
+            setOdds(json);
+        }
+
+        if (raceId) {
+            fetchOdds();
+        }
+    }, [raceId]);
 
     // レース日の情報
     const todayState = { date: "2026年1月23日", weather: "曇" }
@@ -130,6 +147,7 @@ export default function VotePage() {
                 {tab === 'vote' && (
                     <VoteContent
                         runners={data.runners}
+                        odds={odds}
                         setOpen={setOpen}
                         setSelectedRunner={setSelectedRunner}
                     />
