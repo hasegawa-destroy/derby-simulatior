@@ -21,7 +21,7 @@ export function CheckContent({ raceId }: Props) {
     }, []);
 
     // 走者取得
-    const [runner, setRunner] = useState<Runner>()
+    const [runner, setRunner] = useState<Runner | null>(null)
     useEffect(() => {
         fetch(
             `/api/runner?raceId=${raceId}&runnerId=001`
@@ -57,7 +57,7 @@ export function CheckContent({ raceId }: Props) {
                     <div className='w-full flex justify-between items-center'>
                         <div className="flex items-center gap-4 flex-1">
                             <p>{`${vote.RunnerName}`}</p>
-                            <p>1.4倍</p>
+                            <p>{runner?.Odds ?? 1.1} 倍</p>
                         </div>
                         <div>
                             <p className='text-right'>{`${vote.BetAmount} pt`}</p>
