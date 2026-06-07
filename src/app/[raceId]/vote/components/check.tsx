@@ -73,7 +73,7 @@ export function CheckContent({ raceId }: Props) {
 
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} raceId={raceId} />
+            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} odds={1} raceId={raceId} />
         </div>
     )
 }

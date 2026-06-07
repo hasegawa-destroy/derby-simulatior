@@ -8,13 +8,12 @@ type Props = {
     open: boolean
     onOpenChange: (open: boolean) => void
     runner: Runner | null
+    odds: number
     raceId: string
 }
 
-export function VoteDialog({ open, onOpenChange, runner, raceId }: Props) {
+export function VoteDialog({ open, onOpenChange, runner, odds, raceId }: Props) {
     const [bet, setBet] = useState('')
-
-    const odds = runner?.Odds ?? 1
 
     // 数値変換（空文字対策）
     const betNumber = Number(bet) || 0

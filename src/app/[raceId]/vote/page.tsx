@@ -5,8 +5,6 @@ import { useParams } from 'next/navigation';
 import { formatInTimeZone } from "date-fns-tz";
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
-import { VoteDialog } from "../../components/ui/voteDialog";
-import { Runner } from '@/types/runner';
 import { User } from '@/types/user';
 
 export default function VotePage() {
@@ -61,9 +59,6 @@ export default function VotePage() {
 
     // レース日の情報
     const todayState = { date: "2026年1月23日", weather: "曇" }
-
-    const [open, setOpen] = useState(false)
-    const [selectedRunner, setSelectedRunner] = useState<Runner | null>(null);
 
     const [tab, setTab] = useState<'list' | 'vote' | 'check'>('list')
     const tabClass = (name: string) =>
@@ -148,8 +143,6 @@ export default function VotePage() {
                     <VoteContent
                         runners={data.runners}
                         odds={odds}
-                        setOpen={setOpen}
-                        setSelectedRunner={setSelectedRunner}
                     />
                 )}
 
@@ -160,9 +153,6 @@ export default function VotePage() {
                     </div>
                 )}
             </div>
-
-            {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={selectedRunner} raceId={raceId} />
 
         </div>
     )
