@@ -10,10 +10,13 @@ type Props = {
     runner: Runner | null
     odds: number
     raceId: string
+    point: number
 }
 
-export function VoteDialog({ open, onOpenChange, runner, odds, raceId }: Props) {
+export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point }: Props) {
     const [bet, setBet] = useState('')
+
+    const [error, setError] = useState("");
 
     // 数値変換（空文字対策）
     const betNumber = Number(bet) || 0
@@ -23,6 +26,18 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId }: Props) 
 
     // 投票
     const handleVote = async (betAmount: number) => {
+        if (betAmount <= 0) {
+            setError("賭けポイントを入力してください");
+            return;
+        }
+
+        if (betAmount > point) {
+            setError("所持ポイントが不足しています");
+            return;
+        }
+
+        setError("");
+
         const vote = {
             PK: `RACE${raceId}`,
             SK: `${runner?.SK}`,
@@ -38,6 +53,8 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId }: Props) 
             },
             body: JSON.stringify(vote),
         });
+
+        onOpenChange(false);
     };
 
     return (
@@ -91,12 +108,18 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId }: Props) 
                             </div>
                         </div>
 
+                        {/* 投票時エラー */}
+                        {error && (
+                            <p className="mt-2 text-sm text-red-500">
+                                {error}
+                            </p>
+                        )}
+
                         {/* ボタン */}
                         <div className='flex flex-col gap-2'>
                             <button
                                 onClick={() => {
                                     handleVote(betNumber)
-                                    onOpenChange(false)
                                 }}
                                 className="px-4 py-2 bg-tertiary text-white rounded-full"
                             >

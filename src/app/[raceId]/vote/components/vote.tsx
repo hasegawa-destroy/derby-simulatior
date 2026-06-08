@@ -5,9 +5,10 @@ import { useState } from "react";
 type Props = {
     runners: Runner[]
     odds: { runnerId: string; odds: number }[]
+    point: number
 }
 
-export function VoteContent({ runners, odds }: Props) {
+export function VoteContent({ runners, odds, point }: Props) {
     // オッズ紐づけ
     const oddsMap = Object.fromEntries(
         odds.map(o => [o.runnerId, o.odds])
@@ -59,7 +60,7 @@ export function VoteContent({ runners, odds }: Props) {
 
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} odds={runnerOdds} raceId={raceId ?? ""} />
+            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} odds={runnerOdds} raceId={raceId ?? ""} point={point} />
         </div>
     )
 }

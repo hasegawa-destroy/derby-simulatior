@@ -143,6 +143,7 @@ export default function VotePage() {
                     <VoteContent
                         runners={data.runners}
                         odds={odds}
+                        point={user?.Point ?? 0}
                     />
                 )}
 
