@@ -1,4 +1,4 @@
-import { PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "./client";
 import { Vote } from "@/types/vote";
 
@@ -65,6 +65,18 @@ export async function putVote(vote: Vote) {
                 ":runnerName": vote.RunnerName,
             },
             ReturnValues: "ALL_NEW",
+        })
+    );
+}
+
+export async function deleteVote(vote: Vote) {
+    await db.send(
+        new DeleteCommand({
+            TableName: TABLE_NAME,
+            Key: {
+                PK: vote.PK,
+                SK: vote.SK,
+            },
         })
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { VoteDialog } from "@/app/components/ui/voteDialog";
 import { Vote } from '@/types/vote';
 import { Runner } from '@/types/runner';
+import { DeleteVoteDialog } from './deleteVoteDialog';
 
 type Props = {
     raceId: string
@@ -9,6 +9,7 @@ type Props = {
 
 export function CheckContent({ raceId }: Props) {
     const [open, setOpen] = useState(false)
+    const [vote, setVote] = useState<Vote | null>(null)
 
     // 投票取得
     const [votes, setVotes] = useState<Vote[]>([])
@@ -64,16 +65,22 @@ export function CheckContent({ raceId }: Props) {
                         </div>
                     </div>
 
-                    {/* 変更ボタン */}
-                    <div className='w-2/5'>
-                        <button onClick={() => setOpen(true)} className="px-4 py-2 bg-tertiary text-white rounded-full">変更</button>
+                    {/* 取消ボタン */}
+                    <div className='w-2/5 grid justify-items-end'>
+                        <button
+                            onClick={() => {
+                                setOpen(true);
+                                setVote(vote);
+                            }}
+                            className="px-4 py-2 bg-[#DC2626] text-white rounded-full">取消</button>
                     </div>
                 </div>
-            ))}
+            ))
+            }
 
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} odds={1} raceId={raceId} />
-        </div>
+            <DeleteVoteDialog open={open} onOpenChange={setOpen} vote={vote} />
+        </div >
     )
 }

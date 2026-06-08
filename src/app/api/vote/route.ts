@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getVote, putVote } from "@/lib/dynamodb/vote";
+import { deleteVote, getVote, putVote } from "@/lib/dynamodb/vote";
 import { cookies } from "next/headers";
 import { changePoint } from "@/lib/dynamodb/user";
 
@@ -41,6 +41,36 @@ export async function POST(request: NextRequest) {
     }
     catch (e) {
         console.log("投票に失敗しました: " + e)
+    }
+
+    return NextResponse.json({
+        success: true,
+    });
+}
+
+export async function DELETE(request: NextRequest) {
+    const body = await request.json();
+    const userId = (await cookies()).get("SK")?.value ?? "";
+
+
+    try {
+        const betAmount = body.BetAmount;
+
+        // 投票削除
+        await deleteVote(body);
+
+        // ポイント返却
+        await changePoint(userId, betAmount);
+    } catch (e) {
+        console.error("投票取消に失敗しました:", e);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: "投票取消に失敗しました",
+            },
+            { status: 500 }
+        );
     }
 
     return NextResponse.json({
