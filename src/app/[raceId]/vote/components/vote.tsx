@@ -32,16 +32,7 @@ export function VoteContent({ runners, odds, point }: Props) {
                 <div>
                     {runners.map((runner, index) => (
                         <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
-
-                            <button
-                                onClick={() => {
-                                    setOpen(true);
-                                    setRunner(runner);
-                                    setRaceId(runner.PK.split("#")[1]);
-                                    setRunnerOdds(Number((oddsMap[runner.SK] ?? 1.1).toFixed(1)))
-                                }}
-                                className="w-full flex justify-between px-2 py-4"
-                            >
+                            <div className="w-full flex justify-between items-center px-2 py-4">
                                 <div className="flex gap-4">
                                     <p>{index + 1}</p>
                                     <p>{runner.RunnerName}</p>
@@ -50,8 +41,17 @@ export function VoteContent({ runners, odds, point }: Props) {
                                 <div>
                                     <p>{(oddsMap[runner.SK] ?? 1.1).toFixed(1)} 倍</p>
                                 </div>
-                            </button>
 
+                                <button
+                                    onClick={() => {
+                                        setOpen(true);
+                                        setRunner(runner);
+                                        setRaceId(runner.PK.split("#")[1]);
+                                        setRunnerOdds(Number((oddsMap[runner.SK] ?? 1.1).toFixed(1)))
+                                    }}
+                                    className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold"
+                                >投票</button>
+                            </div>
                         </div>
                     ))}
                 </div>
