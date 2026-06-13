@@ -21,14 +21,28 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Pr
     const [raceId, setRaceId] = useState<string>()
     const [runnerOdds, setRunnerOdds] = useState<number>(1)
 
+    // 再描画ボタン押下処理
+    const handleRefresh = async () => {
+        await fetchOdds();
+    };
+
+
     return (
         <div className="p-4">
 
             <div>
-                <p>単勝</p>
+                <div className="relative flex justify-center items-center w-full py-2 border-b-2">
+                    <div>
+                        <p>人気順</p>
+                    </div>
 
-                <div className="flex items-center justify-center py-2 border-b-2">
-                    <p>人気順</p>
+                    {/* 再読み込みボタン */}
+                    <div className="absolute right-4">
+                        <button
+                            onClick={() => { handleRefresh() }}>
+                            ⤴
+                        </button>
+                    </div>
                 </div>
 
                 <div>

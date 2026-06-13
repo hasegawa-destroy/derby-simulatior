@@ -37,8 +37,13 @@ export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
             .then(setRunner);
     }, []);
 
-    // 投票合計
+    // 投票合計算出
     const totalBetAmount = votes.reduce((total, vote) => total + vote.BetAmount, 0);
+
+    // 再描画ボタン押下処理
+    const handleRefresh = async () => {
+        await fetchOdds();
+    };
 
     if (votes == null || runner == null) {
         return <div>読み込み中...</div>
@@ -53,8 +58,16 @@ export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
                 <p>{`${totalBetAmount} pt`}</p>
             </div>
 
-            <div>
+            <div className='flex justify-between items-center px-4 mb-4'>
                 <p>単勝</p>
+
+                {/* 再読み込みボタン */}
+                <div>
+                    <button
+                        onClick={() => { handleRefresh() }}>
+                        ⤴
+                    </button>
+                </div>
             </div>
 
             {/* 投票一覧 */}
