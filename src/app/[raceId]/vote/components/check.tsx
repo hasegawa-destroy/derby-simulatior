@@ -5,11 +5,12 @@ import { DeleteVoteDialog } from './deleteVoteDialog';
 
 type Props = {
     raceId: string
+    odds: { runnerId: string; odds: number }[]
     refreshUser: () => Promise<void>
     fetchOdds: () => Promise<void>
 }
 
-export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
+export function CheckContent({ raceId, odds, refreshUser, fetchOdds }: Props) {
     const [open, setOpen] = useState(false)
     const [vote, setVote] = useState<Vote | null>(null)
 
@@ -45,6 +46,11 @@ export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
         await fetchOdds();
     };
 
+    // オッズ紐づけ
+    const oddsMap = Object.fromEntries(
+        odds.map(o => [o.runnerId, o.odds])
+    );
+
     if (votes == null || runner == null) {
         return <div>読み込み中...</div>
     }
@@ -77,7 +83,7 @@ export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
                     <div className='w-full flex justify-between items-center'>
                         <div className="flex items-center gap-4 flex-1">
                             <p>{`${vote.RunnerName}`}</p>
-                            <p>{runner?.Odds ?? 1.1} 倍</p>
+                            <p>{(oddsMap[vote.SK] ?? 1.1).toFixed(1)} 倍</p>
                         </div>
                         <div>
                             <p className='text-right'>{`${vote.BetAmount} pt`}</p>

@@ -144,6 +144,7 @@ export default function VotePage() {
                     <div>
                         <CheckContent
                             raceId={raceId}
+                            odds={odds}
                             refreshUser={fetchUser}
                             fetchOdds={fetchOdds}
                         />
