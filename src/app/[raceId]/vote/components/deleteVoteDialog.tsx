@@ -8,9 +8,12 @@ type Props = {
     open: boolean
     onOpenChange: (open: boolean) => void
     vote: Vote | null
+    refreshUser: () => Promise<void>
+    fetchOdds: () => Promise<void>
+    fetchVotes: () => Promise<void>
 }
 
-export function DeleteVoteDialog({ open, onOpenChange, vote }: Props) {
+export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchOdds, fetchVotes }: Props) {
 
     // 投票
     const handleDeleteVote = async () => {
@@ -21,6 +24,10 @@ export function DeleteVoteDialog({ open, onOpenChange, vote }: Props) {
             },
             body: JSON.stringify(vote),
         });
+
+        await refreshUser();
+        await fetchOdds();
+        await fetchVotes();
     };
 
     return (

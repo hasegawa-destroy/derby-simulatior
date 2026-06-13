@@ -6,9 +6,11 @@ type Props = {
     runners: Runner[]
     odds: { runnerId: string; odds: number }[]
     point: number
+    refreshUser: () => Promise<void>
+    fetchOdds: () => Promise<void>
 }
 
-export function VoteContent({ runners, odds, point }: Props) {
+export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Props) {
     // オッズ紐づけ
     const oddsMap = Object.fromEntries(
         odds.map(o => [o.runnerId, o.odds])
@@ -60,7 +62,16 @@ export function VoteContent({ runners, odds, point }: Props) {
 
 
             {/* ダイアログ */}
-            <VoteDialog open={open} onOpenChange={setOpen} runner={runner} odds={runnerOdds} raceId={raceId ?? ""} point={point} />
+            <VoteDialog
+                open={open}
+                onOpenChange={setOpen}
+                runner={runner}
+                odds={runnerOdds}
+                raceId={raceId ?? ""}
+                point={point}
+                refreshUser={refreshUser}
+                fetchOdds={fetchOdds}
+            />
         </div>
     )
 }

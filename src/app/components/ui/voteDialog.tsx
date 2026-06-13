@@ -11,11 +11,12 @@ type Props = {
     odds: number
     raceId: string
     point: number
+    refreshUser: () => Promise<void>
+    fetchOdds: () => Promise<void>
 }
 
-export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point }: Props) {
+export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, refreshUser, fetchOdds }: Props) {
     const [bet, setBet] = useState('')
-
     const [error, setError] = useState("");
 
     // 数値変換（空文字対策）
@@ -55,6 +56,8 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point }: 
         });
 
         onOpenChange(false);
+        await refreshUser();
+        await fetchOdds();
     };
 
     return (

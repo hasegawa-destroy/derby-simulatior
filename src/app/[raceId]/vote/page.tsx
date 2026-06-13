@@ -14,48 +14,38 @@ export default function VotePage() {
 
     const [user, setUser] = useState<User | null>(null);
     const [data, setData] = useState<any>(null);
-    const [odds, setOdds] = useState<
-        { runnerId: string; odds: number }[]
-    >([]);
-
+    const [odds, setOdds] = useState<{ runnerId: string; odds: number }[]>([]);
 
     // TODO: 遷移のたびに叩かない
     // ユーザー情報取得
-    useEffect(() => {
-        async function fetchUser() {
-            const res = await fetch(`/api/user`);
-            const json = await res.json();
-
-            setUser(json);
-        }
-
-        fetchUser();
-    }, []);
+    const fetchUser = async () => {
+        const res = await fetch("/api/user");
+        const json = await res.json();
+        setUser(json);
+    };
 
     // レース情報取得
-    useEffect(() => {
-        async function fetchRace() {
-            const res = await fetch(`/api/race/${raceId}`);
-            const json = await res.json();
+    async function fetchRace() {
+        const res = await fetch(`/api/race/${raceId}`);
+        const json = await res.json();
 
-            setData(json);
-        }
-
-        fetchRace();
-    }, []);
+        setData(json);
+    }
 
     // オッズ取得
-    useEffect(() => {
-        async function fetchOdds() {
-            const res = await fetch(`/api/odds?raceId=${raceId}`);
-            const json = await res.json();
-            setOdds(json);
-        }
+    const fetchOdds = async () => {
+        if (raceId == null || raceId == "") return;
 
-        if (raceId) {
-            fetchOdds();
-        }
-    }, [raceId]);
+        const res = await fetch(`/api/odds?raceId=${raceId}`);
+        const json = await res.json();
+        setOdds(json);
+    }
+
+    useEffect(() => {
+        fetchUser();
+        fetchRace();
+        fetchOdds();
+    }, []);
 
     // レース日の情報
     const todayState = { date: "2026年1月23日", weather: "曇" }
@@ -144,13 +134,19 @@ export default function VotePage() {
                         runners={data.runners}
                         odds={odds}
                         point={user?.Point ?? 0}
+                        refreshUser={fetchUser}
+                        fetchOdds={fetchOdds}
                     />
                 )}
 
                 {/* 照会 */}
                 {tab === 'check' && (
                     <div>
-                        <CheckContent raceId={raceId} />
+                        <CheckContent
+                            raceId={raceId}
+                            refreshUser={fetchUser}
+                            fetchOdds={fetchOdds}
+                        />
                     </div>
                 )}
             </div>

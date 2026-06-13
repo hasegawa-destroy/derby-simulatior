@@ -5,20 +5,26 @@ import { DeleteVoteDialog } from './deleteVoteDialog';
 
 type Props = {
     raceId: string
+    refreshUser: () => Promise<void>
+    fetchOdds: () => Promise<void>
 }
 
-export function CheckContent({ raceId }: Props) {
+export function CheckContent({ raceId, refreshUser, fetchOdds }: Props) {
     const [open, setOpen] = useState(false)
     const [vote, setVote] = useState<Vote | null>(null)
 
     // 投票取得
     const [votes, setVotes] = useState<Vote[]>([])
-    useEffect(() => {
+    const fetchVotes = async () => {
         fetch(
             `/api/vote?raceId=${raceId}&runnerId=001`
         )
             .then((res) => res.json())
             .then(setVotes);
+    };
+
+    useEffect(() => {
+        fetchVotes();
     }, []);
 
     // 走者取得
@@ -80,7 +86,14 @@ export function CheckContent({ raceId }: Props) {
 
 
             {/* ダイアログ */}
-            <DeleteVoteDialog open={open} onOpenChange={setOpen} vote={vote} />
+            <DeleteVoteDialog
+                open={open}
+                onOpenChange={setOpen}
+                vote={vote}
+                refreshUser={refreshUser}
+                fetchOdds={fetchOdds}
+                fetchVotes={fetchVotes}
+            />
         </div >
     )
 }
