@@ -48,7 +48,7 @@ export default function VotePage() {
     }, []);
 
     // レース日の情報
-    const todayState = { date: "2026年1月23日", weather: "曇" }
+    const todayState = { date: "2026年6月18日", weather: "曇" }
 
     const [tab, setTab] = useState<'list' | 'vote' | 'check'>('list')
     const tabClass = (name: string) =>
@@ -61,12 +61,32 @@ export default function VotePage() {
         return <div>レース情報読み込み中...</div>;
     }
 
-    // フォーマット変更
-    const formattedStartTime = formatInTimeZone(
-        data.StartTime,
-        "Asia/Tokyo",
-        "HH時mm分"
-    );
+    // レース状態文言変換
+    const getStateInfo = (state: string) => {
+        switch (state) {
+            case "OpenVoting":
+                return {
+                    label: "投票受付中",
+                    className: "text-green-600",
+                };
+            case "CloseVoting":
+                return {
+                    label: "投票終了",
+                    className: "text-red-600",
+                };
+            case "PaidOut":
+                return {
+                    label: "終了",
+                    className: "text-gray-500",
+                };
+            default:
+                return {
+                    label: state,
+                    className: "text-gray-500",
+                };
+        }
+    };
+    const stateInfo = getStateInfo(data.State);
 
     return (
         <div className="mx-full">
@@ -81,17 +101,15 @@ export default function VotePage() {
 
             {/* レース情報 */}
             <div className="p-4">
-                <p className="text-2xl font-bold mb-6">{data.RaceName}</p>
-
-                <div className="flex gap-2">
-                    <p className='text-sm'>開始 {formattedStartTime}</p>
-                    <p className='text-sm'>締切 {formattedStartTime}</p>
-                    <p>投票締切</p>
-                </div>
+                <p className="text-2xl font-bold mb-4">{data.RaceName}</p>
 
                 <div className="flex gap-2">
                     <p>{todayState.date}</p>
                     <p>{todayState.weather}</p>
+                </div>
+
+                <div className="flex">
+                    <p className={`text-sm text-left ${stateInfo.className}`}>{stateInfo.label}</p>
                 </div>
             </div>
 

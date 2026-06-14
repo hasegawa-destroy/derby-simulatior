@@ -1,5 +1,4 @@
 import { Race } from "@/types/race";
-import { formatInTimeZone } from "date-fns-tz";
 import { useRouter } from "next/navigation";
 
 export function RaceCard({ race }: { race: Race }) {
@@ -11,32 +10,48 @@ export function RaceCard({ race }: { race: Race }) {
         router.push(`/${raceId}/vote`);
     };
 
-    // フォーマット変更
-    const formattedStartTime = formatInTimeZone(
-        race.StartTime,
-        "Asia/Tokyo",
-        "HH時mm分"
-    );
-
-
     if (race.State == "Hide") {
         return <></>
     }
 
+    // レース状態文言変換
+    const getStateInfo = (state: string) => {
+        switch (state) {
+            case "OpenVoting":
+                return {
+                    label: "投票受付中",
+                    className: "text-green-600",
+                };
+            case "CloseVoting":
+                return {
+                    label: "投票終了",
+                    className: "text-red-600",
+                };
+            case "PaidOut":
+                return {
+                    label: "終了",
+                    className: "text-gray-500",
+                };
+            default:
+                return {
+                    label: state,
+                    className: "text-gray-500",
+                };
+        }
+    };
+    const stateInfo = getStateInfo(race.State);
+
     return (
-        <div className="flex rounded-lg w-full h-32 p-2 bg-white transition">
-            <div className="flex flex-col items-center justify-center w-3/5 h-full">
-                <p className="text-lg font-semibold mb-2">{race.RaceName}</p>
-                <div>
-                    <p className="text-sm">開始 {formattedStartTime}</p>
-                    <p className="text-sm">締切 6分</p>
-                </div>
+        <div className="flex justify-between items-center rounded-lg w-full p-8 bg-white transition">
+            <div className="flex flex-col items-start">
+                <p className="text-lg text-left font-semibold">{race.RaceName}</p>
+                <p className={`text-sm text-left ${stateInfo.className}`}>{stateInfo.label}</p>
             </div>
 
             {/* 投票ボタン */}
-            <div className="flex w-2/5 h-full items-center justify-center">
+            <div className="flex h-full items-center">
                 <button className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold" onClick={handleClick}>投票</button>
             </div>
-        </div>
+        </div >
     )
 }
