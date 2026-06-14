@@ -6,11 +6,12 @@ type Props = {
     runners: Runner[]
     odds: { runnerId: string; odds: number }[]
     point: number
+    raceState: string
     refreshUser: () => Promise<void>
     fetchOdds: () => Promise<void>
 }
 
-export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Props) {
+export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, raceState }: Props) {
     // オッズ紐づけ
     const oddsMap = Object.fromEntries(
         odds.map(o => [o.runnerId, o.odds])
@@ -25,7 +26,6 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Pr
     const handleRefresh = async () => {
         await fetchOdds();
     };
-
 
     return (
         <div className="p-4">
@@ -65,7 +65,8 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Pr
                                         setRaceId(runner.PK.split("#")[1]);
                                         setRunnerOdds(Number((oddsMap[runner.SK] ?? 1.1).toFixed(1)))
                                     }}
-                                    className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold"
+                                    className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={raceState !== "OpenVoting"}
                                 >投票</button>
                             </div>
                         </div>
@@ -83,6 +84,7 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds }: Pr
                 odds={runnerOdds}
                 raceId={raceId ?? ""}
                 point={point}
+                canVote={raceState === "OpenVoting"}
                 refreshUser={refreshUser}
                 fetchOdds={fetchOdds}
             />

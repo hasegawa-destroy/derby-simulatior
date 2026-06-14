@@ -11,11 +11,12 @@ type Props = {
     odds: number
     raceId: string
     point: number
+    canVote: boolean
     refreshUser: () => Promise<void>
     fetchOdds: () => Promise<void>
 }
 
-export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, refreshUser, fetchOdds }: Props) {
+export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, canVote, refreshUser, fetchOdds }: Props) {
     const [bet, setBet] = useState('')
     const [error, setError] = useState("");
 
@@ -27,6 +28,11 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, re
 
     // 投票
     const handleVote = async (betAmount: number) => {
+        if (!canVote) {
+            onOpenChange(false);
+            return;
+        }
+
         if (betAmount <= 0) {
             setError("賭けポイントを入力してください");
             return;

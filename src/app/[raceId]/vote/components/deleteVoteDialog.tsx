@@ -8,15 +8,21 @@ type Props = {
     open: boolean
     onOpenChange: (open: boolean) => void
     vote: Vote | null
+    canDelete: boolean
     refreshUser: () => Promise<void>
     fetchOdds: () => Promise<void>
     fetchVotes: () => Promise<void>
 }
 
-export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchOdds, fetchVotes }: Props) {
+export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchOdds, fetchVotes, canDelete }: Props) {
 
     // 投票
     const handleDeleteVote = async () => {
+        if (!canDelete) {
+            onOpenChange(false);
+            return;
+        }
+
         await fetch("/api/vote", {
             method: "DELETE",
             headers: {
@@ -28,6 +34,8 @@ export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchO
         await refreshUser();
         await fetchOdds();
         await fetchVotes();
+
+        onOpenChange(false)
     };
 
     return (
@@ -57,7 +65,6 @@ export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchO
                             <button
                                 onClick={() => {
                                     handleDeleteVote()
-                                    onOpenChange(false)
                                 }}
                                 className="px-4 py-2 bg-tertiary text-white rounded-full"
                             >

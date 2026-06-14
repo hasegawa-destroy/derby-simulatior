@@ -134,6 +134,7 @@ export default function VotePage() {
                         runners={data.runners}
                         odds={odds}
                         point={user?.Point ?? 0}
+                        raceState={data.State}
                         refreshUser={fetchUser}
                         fetchOdds={fetchOdds}
                     />
@@ -145,6 +146,7 @@ export default function VotePage() {
                         <CheckContent
                             raceId={raceId}
                             odds={odds}
+                            raceState={data.State}
                             refreshUser={fetchUser}
                             fetchOdds={fetchOdds}
                         />
