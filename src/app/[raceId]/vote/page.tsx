@@ -6,6 +6,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { User } from '@/types/user';
+import { RunnerListContent } from './components/runnerList';
 
 export default function VotePage() {
 
@@ -142,7 +143,7 @@ export default function VotePage() {
                 {/* 出走表 */}
                 {tab === 'list' && (
                     <div>
-                        <p>出走表</p>
+                        <RunnerListContent runners={data.runners} />
                     </div>
                 )}
 
