@@ -16,6 +16,13 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, race
     const oddsMap = Object.fromEntries(
         odds.map(o => [o.runnerId, o.odds])
     );
+    const sortedRunners = [...runners].sort((a, b) => {
+        const oddsA = oddsMap[a.SK] ?? 1.1;
+        const oddsB = oddsMap[b.SK] ?? 1.1;
+
+        // オッズが低い順
+        return oddsA - oddsB;
+    });
 
     const [open, setOpen] = useState(false)
     const [runner, setRunner] = useState<Runner | null>(null)
@@ -46,7 +53,7 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, race
                 </div>
 
                 <div>
-                    {runners.map((runner, index) => (
+                    {sortedRunners.map((runner, index) => (
                         <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
                             <div className="w-full flex justify-between items-center px-2 py-4">
                                 <div className="flex gap-4">
