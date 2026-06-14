@@ -89,9 +89,12 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
                                 <p>賭けポイント</p>
                                 <div className='flex gap-2'>
                                     <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
                                         value={bet}
                                         onChange={(e) => {
-                                            const v = e.target.value
+                                            const v = e.target.value.replace(/[^0-9]/g, "");
                                             if (/^\d*$/.test(v)) {
                                                 setBet(v)
                                             }
