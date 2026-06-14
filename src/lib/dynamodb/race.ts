@@ -1,6 +1,7 @@
 import { QueryCommand, ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "./client";
 import { Race } from "@/types/race";
+import { Runner } from "@/types/runner";
 
 const TABLE_NAME = "Race";
 
@@ -38,9 +39,14 @@ export async function getRace(raceId: string) {
         item => item.SK === "META"
     );
 
-    const runners = items.filter(
-        item => item.SK?.startsWith("RUNNER#")
-    );
+    const runners: Runner[] = items
+        .filter(item => item.SK?.startsWith("RUNNER#"))
+        .map(item => ({
+            PK: item.PK,
+            SK: item.SK,
+            RunnerName: item.RunnerName,
+            Odds: item.Odds,
+        }));
 
     return { ...race, runners };
 }

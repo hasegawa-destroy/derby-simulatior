@@ -1,4 +1,6 @@
+import { getRace } from "@/lib/dynamodb/race";
 import { getRaceVotes } from "@/lib/dynamodb/vote";
+import { Runner } from "@/types/runner";
 import { Vote } from "@/types/vote";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -17,30 +19,30 @@ export async function GET(request: NextRequest) {
     const votes = await getRaceVotes(raceId);
 
     // オッズ算出
-    const odds = calculateOdds(votes);
+    const race = await getRace(raceId);
+    const odds = calculateOdds(votes, race.runners);
 
     return NextResponse.json(odds);
 }
 
-function calculateOdds(votes: Vote[]) {
+function calculateOdds(votes: Vote[], runners: Runner[]) {
     const runnerTotals: Record<string, number> = {};
     let total = 0;
 
     for (const vote of votes) {
-        console.log("SK: " + vote.SK)
-
         const amount = Number(vote.BetAmount);
         runnerTotals[vote.SK] = (runnerTotals[vote.SK] ?? 0) + amount;
         total += amount;
     }
 
-    const payout = total;
+    return runners.map((runner) => {
+        const runnerId = runner.SK;
+        const amount = runnerTotals[runnerId] ?? 0;
 
-    return Object.entries(runnerTotals).map(
-        ([runnerId, amount]) => ({
+        return {
             runnerId,
             total: amount,
-            odds: amount === 0 ? 0 : payout / amount,
-        })
-    );
+            odds: amount === 0 ? total : total / amount,
+        };
+    });
 }
