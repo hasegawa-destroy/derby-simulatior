@@ -1,5 +1,6 @@
-import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { db } from "./client";
+import { Race } from "@/types/race";
 
 const TABLE_NAME = "Race";
 
@@ -42,4 +43,24 @@ export async function getRace(raceId: string) {
     );
 
     return { ...race, runners };
+}
+
+export async function changeState(race: Race) {
+    await db.send(
+        new UpdateCommand({
+            TableName: TABLE_NAME,
+            Key: {
+                PK: race.PK,
+                SK: race.SK,
+            },
+            UpdateExpression: "SET #state = :state",
+            ExpressionAttributeNames: {
+                "#state": "State",
+            },
+            ExpressionAttributeValues: {
+                ":state": race.State,
+            },
+            ReturnValues: "ALL_NEW",
+        })
+    );
 }

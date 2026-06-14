@@ -1,7 +1,7 @@
 export type Race = {
     PK: string;
     SK: string;
-    IsEnd: boolean
+    State: string
     RaceName: string;
     StartTime: string;
 };

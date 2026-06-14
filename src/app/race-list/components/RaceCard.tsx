@@ -19,6 +19,10 @@ export function RaceCard({ race }: { race: Race }) {
     );
 
 
+    if (race.State == "Hide") {
+        return <></>
+    }
+
     return (
         <div className="flex rounded-lg w-full h-32 p-2 bg-white transition">
             <div className="flex flex-col items-center justify-center w-3/5 h-full">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getRace } from "@/lib/dynamodb/race";
+import { changeState, getRace } from "@/lib/dynamodb/race";
 
 export async function GET(
     request: NextRequest,
@@ -23,4 +23,19 @@ export async function GET(
             { status: 500 }
         );
     }
+}
+
+export async function POST(request: NextRequest) {
+    const body = await request.json();
+
+    try {
+        await changeState(body);
+    }
+    catch (e) {
+        console.log("レースの状態変更に失敗しました: " + e)
+    }
+
+    return NextResponse.json({
+        success: true,
+    });
 }
