@@ -93,24 +93,24 @@ export default function VotePage() {
         <div className="mx-full">
 
             {/* ポイント残高 */}
-            <div className='bg-[#3E3F43] px-4 py-6 border-t-2 border-gray-500'>
+            <div className='bg-[#3E3F43] px-8 py-4 border-t-2 border-gray-500'>
                 <div className='flex justify-between items-center'>
-                    <p className='text-secondary'>ポイント残高</p>
-                    <p className='text-secondary'>{user?.Point ?? 0} pt</p>
+                    <p className='text-secondary text-lg'>ポイント残高</p>
+                    <p className='text-secondary text-xl'>{user?.Point ?? 0} pt</p>
                 </div>
             </div>
 
             {/* レース情報 */}
-            <div className="p-4">
-                <p className="text-2xl font-bold mb-4">{data.RaceName}</p>
+            <div className="px-8 py-4">
+                <p className="text-3xl font-bold mb-2">{data.RaceName}</p>
 
-                <div className="flex gap-2">
-                    <p>{todayState.date}</p>
-                    <p>{todayState.weather}</p>
+                <div className="flex gap-4">
+                    <p className='text-lg'>{todayState.date}</p>
+                    <p className='text-lg'>{todayState.weather}</p>
                 </div>
 
                 <div className="flex">
-                    <p className={`text-sm text-left ${stateInfo.className}`}>{stateInfo.label}</p>
+                    <p className={`className='text-lg' text-left ${stateInfo.className}`}>{stateInfo.label}</p>
                 </div>
             </div>
 
@@ -120,21 +120,21 @@ export default function VotePage() {
                     onClick={() => setTab('list')}
                     className={tabClass('list')}
                 >
-                    <p className="text-white">出走表</p>
+                    <p className="text-secondary text-lg font-semibold">出走表</p>
                 </button>
 
                 <button
                     onClick={() => setTab('vote')}
                     className={tabClass('vote')}
                 >
-                    <p className="text-white">投票</p>
+                    <p className="text-secondary text-lg font-semibold">投票</p>
                 </button>
 
                 <button
                     onClick={() => setTab('check')}
                     className={tabClass('check')}
                 >
-                    <p className="text-white">照会</p>
+                    <p className="text-secondary text-lg font-semibold">照会</p>
                 </button>
             </div>
 
@@ -142,9 +142,7 @@ export default function VotePage() {
             <div className="p-4">
                 {/* 出走表 */}
                 {tab === 'list' && (
-                    <div>
-                        <RunnerListContent runners={data.runners} />
-                    </div>
+                    <RunnerListContent runners={data.runners} />
                 )}
 
                 {/* 投票 */}

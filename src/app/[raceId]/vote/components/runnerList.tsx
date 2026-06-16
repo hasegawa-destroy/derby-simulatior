@@ -15,9 +15,9 @@ export function RunnerListContent({ runners }: Props) {
                 {runners.map((runner, index) => (
                     <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
                         <div className="w-full flex justify-between items-center px-2 py-4">
-                            <div className="flex gap-4">
-                                <p>{index + 1}</p>
-                                <p>{runner.RunnerName}</p>
+                            <div className="flex gap-6">
+                                <p className="text-xl font-bold">{index + 1}</p>
+                                <p className="text-2xl font-bold">{runner.RunnerName}</p>
                             </div>
                         </div>
                     </div>

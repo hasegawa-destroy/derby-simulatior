@@ -40,10 +40,10 @@ export default function RaceListPage() {
     return (
         <div>
             {/* ポイント残高 */}
-            <div className='bg-[#3E3F43] px-4 py-6 border-t-2 border-gray-500'>
+            <div className='bg-[#3E3F43] px-8 py-4 border-t-2 border-gray-500'>
                 <div className='flex justify-between items-center'>
-                    <p className='text-secondary'>ポイント残高</p>
-                    <p className='text-secondary'>{user?.Point ?? 0} pt</p>
+                    <p className='text-secondary text-lg'>ポイント残高</p>
+                    <p className='text-secondary text-xl'>{user?.Point ?? 0} pt</p>
                 </div>
             </div>
 

@@ -40,14 +40,15 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, race
             <div>
                 <div className="relative flex justify-center items-center w-full py-2 border-b-2">
                     <div>
-                        <p>人気順</p>
+                        <p className="text-xl font-semibold">人気順</p>
                     </div>
 
                     {/* 再読み込みボタン */}
                     <div className="absolute right-4">
                         <button
-                            onClick={() => { handleRefresh() }}>
-                            ⤴
+                            onClick={() => { handleRefresh() }}
+                            className="text-2xl">
+                            ↺
                         </button>
                     </div>
                 </div>
@@ -57,12 +58,12 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, race
                         <div key={`${runner.PK}-${runner.SK}`} className="border-b-2 border-gray-300">
                             <div className="w-full flex justify-between items-center px-2 py-4">
                                 <div className="flex gap-4">
-                                    <p>{index + 1}</p>
-                                    <p>{runner.RunnerName}</p>
+                                    <p className="text-lg">{index + 1}</p>
+                                    <p className="text-lg font-semibold">{runner.RunnerName}</p>
                                 </div>
 
                                 <div>
-                                    <p>{(oddsMap[runner.SK] ?? 1.1).toFixed(1)} 倍</p>
+                                    <p className="text-lg font-bold">{(oddsMap[runner.SK] ?? 1.1).toFixed(1)} 倍</p>
                                 </div>
 
                                 <button
@@ -72,7 +73,7 @@ export function VoteContent({ runners, odds, point, refreshUser, fetchOdds, race
                                         setRaceId(runner.PK.split("#")[1]);
                                         setRunnerOdds(Number((oddsMap[runner.SK] ?? 1.1).toFixed(1)))
                                     }}
-                                    className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="bg-tertiary rounded-full px-6 py-3 text-lg text-secondary font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                                     disabled={raceState !== "OpenVoting"}
                                 >投票</button>
                             </div>

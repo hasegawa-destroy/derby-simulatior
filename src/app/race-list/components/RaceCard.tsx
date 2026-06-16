@@ -44,13 +44,13 @@ export function RaceCard({ race }: { race: Race }) {
     return (
         <div className="flex justify-between items-center rounded-lg w-full p-8 bg-white transition">
             <div className="flex flex-col items-start">
-                <p className="text-lg text-left font-semibold">{race.RaceName}</p>
-                <p className={`text-sm text-left ${stateInfo.className}`}>{stateInfo.label}</p>
+                <p className="text-xl text-left font-bold">{race.RaceName}</p>
+                <p className={`text-lg text-left ${stateInfo.className}`}>{stateInfo.label}</p>
             </div>
 
             {/* 投票ボタン */}
             <div className="flex h-full items-center">
-                <button className="bg-tertiary rounded-full px-8 py-3 text-white font-semibold" onClick={handleClick}>投票</button>
+                <button className="bg-tertiary rounded-full px-8 py-3 text-white text-lg font-semibold" onClick={handleClick}>投票</button>
             </div>
         </div >
     )

@@ -61,18 +61,19 @@ export function CheckContent({ raceId, odds, refreshUser, fetchOdds, raceState }
 
             {/* 投票合計 */}
             <div className='flex justify-between p-6 bg-gray-200 rounded-lg mb-4'>
-                <p>投票合計</p>
-                <p>{`${totalBetAmount} pt`}</p>
+                <p className='text-lg font-semibold'>投票合計</p>
+                <p className='text-lg font-semibold'>{`${totalBetAmount} pt`}</p>
             </div>
 
             <div className='flex justify-between items-center px-4 mb-4'>
-                <p>単勝</p>
+                <p className='text-xl font-semibold'>投票一覧</p>
 
                 {/* 再読み込みボタン */}
                 <div>
                     <button
-                        onClick={() => { handleRefresh() }}>
-                        ⤴
+                        onClick={() => { handleRefresh() }}
+                        className="text-2xl">
+                        ↺
                     </button>
                 </div>
             </div>
@@ -82,12 +83,12 @@ export function CheckContent({ raceId, odds, refreshUser, fetchOdds, raceState }
                 <div key={`${vote.PK}-${vote.SK}`} className="w-full flex gap-8 justify-between py-2 border-b-2 border-gray-300">
                     {/* テキスト */}
                     <div className='w-full flex justify-between items-center'>
-                        <div className="flex items-center gap-4 flex-1">
-                            <p>{`${vote.RunnerName}`}</p>
-                            <p>{(oddsMap[vote.SK] ?? 1.1).toFixed(1)} 倍</p>
+                        <div className="flex items-center gap-6 flex-1">
+                            <p className='text-lg font-semibold'>{`${vote.RunnerName}`}</p>
+                            <p className='font-bold'>{(oddsMap[vote.SK] ?? 1.1).toFixed(1)} 倍</p>
                         </div>
                         <div>
-                            <p className='text-right'>{`${vote.BetAmount} pt`}</p>
+                            <p className='text-lg font-bold text-right'>{`${vote.BetAmount} pt`}</p>
                         </div>
                     </div>
 
@@ -98,7 +99,7 @@ export function CheckContent({ raceId, odds, refreshUser, fetchOdds, raceState }
                                 setOpen(true);
                                 setVote(vote);
                             }}
-                            className="px-4 py-2 bg-[#DC2626] text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-5 py-3 bg-[#DC2626] text-lg font-semibold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={raceState !== "OpenVoting"}
                         >取消</button>
                     </div>
