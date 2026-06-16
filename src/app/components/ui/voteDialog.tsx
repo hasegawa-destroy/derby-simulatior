@@ -65,14 +65,14 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
                 },
                 body: JSON.stringify(vote),
             });
+
+            onOpenChange(false);
+            await refreshUser();
+            await fetchOdds();
         }
         finally {
             submittingRef.current = false;
         }
-
-        onOpenChange(false);
-        await refreshUser();
-        await fetchOdds();
     };
 
     return (

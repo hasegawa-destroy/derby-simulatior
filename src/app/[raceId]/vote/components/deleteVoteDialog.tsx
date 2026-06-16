@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Vote } from '@/types/vote'
 
@@ -15,27 +15,47 @@ type Props = {
 }
 
 export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchOdds, fetchVotes, canDelete }: Props) {
+    console.log("DeleteVoteDialog render");
 
-    // 投票
+    useEffect(() => {
+        console.log("mounted");
+
+        return () => {
+            console.log("unmounted");
+        };
+    }, []);
+
+    // 削除
+    const submittingRef = useRef(false);
     const handleDeleteVote = async () => {
+        console.log("start: " + submittingRef.current);
+        if (submittingRef.current) return;
+
         if (!canDelete) {
             onOpenChange(false);
             return;
         }
 
-        await fetch("/api/vote", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(vote),
-        });
+        submittingRef.current = true;
 
-        await refreshUser();
-        await fetchOdds();
-        await fetchVotes();
+        try {
+            await fetch("/api/vote", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(vote),
+            });
 
-        onOpenChange(false)
+            await refreshUser();
+            await fetchOdds();
+            await fetchVotes();
+
+            onOpenChange(false)
+        }
+        finally {
+            submittingRef.current = false;
+        }
     };
 
     return (
