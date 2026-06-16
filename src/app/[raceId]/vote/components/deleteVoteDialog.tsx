@@ -39,6 +39,13 @@ export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchO
         submittingRef.current = true;
 
         try {
+            const res = await fetch(`/api/race/${vote?.RaceId.split("RACE")[1]}`);
+            const race = await res.json();
+            if (race.State != "OpenVoting") {
+                window.location.reload();
+                return;
+            }
+
             await fetch("/api/vote", {
                 method: "DELETE",
                 headers: {

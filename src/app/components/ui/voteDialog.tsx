@@ -58,6 +58,13 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
         };
 
         try {
+            const res = await fetch(`/api/race/${raceId}`);
+            const race = await res.json();
+            if (race.State != "OpenVoting") {
+                window.location.reload();
+                return;
+            }
+
             await fetch("/api/vote", {
                 method: "POST",
                 headers: {
