@@ -34,7 +34,7 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
         }
 
         if (betAmount <= 0) {
-            setError("賭けポイントを入力してください");
+            setError("投票ポイントを入力してください");
             return;
         }
 
@@ -84,9 +84,9 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
                                 <p>{odds} 倍</p>
                             </div>
 
-                            {/* 賭けポイント */}
+                            {/* 投票ポイント */}
                             <div className='flex justify-between py-4 items-center'>
-                                <p>賭けポイント</p>
+                                <p>投票ポイント</p>
                                 <div className='flex gap-2'>
                                     <input
                                         type="text"
