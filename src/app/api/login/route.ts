@@ -15,7 +15,12 @@ export async function POST(request: NextRequest) {
 
     // cookieにデータを設定
     const cookieStore = await cookies();
-    cookieStore.set("SK", user.SK);
+    cookieStore.set("SK", user.SK, {
+        maxAge: 60 * 60 * 24,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+    });
 
     return Response.json({
         success: true,

@@ -39,9 +39,6 @@ export function CheckContent({ raceId, odds, refreshUser, fetchOdds, raceState }
             .then(setRunner);
     }, []);
 
-    // 投票合計算出
-    const totalBetAmount = votes.reduce((total, vote) => total + vote.BetAmount, 0);
-
     // 再描画ボタン押下処理
     const handleRefresh = async () => {
         await fetchOdds();
@@ -55,6 +52,9 @@ export function CheckContent({ raceId, odds, refreshUser, fetchOdds, raceState }
     if (votes == null || runner == null) {
         return <div>読み込み中...</div>
     }
+
+    // 投票合計算出
+    const totalBetAmount = votes.reduce((total, vote) => total + vote.BetAmount, 0);
 
     return (
         <div className="p-4">
