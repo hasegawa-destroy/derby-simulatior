@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Runner } from '@/types/runner'
 
@@ -27,7 +27,10 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
     const profit = payout - betNumber
 
     // 投票
+    const submittingRef = useRef(false);
     const handleVote = async (betAmount: number) => {
+        if (submittingRef.current) return;
+
         if (!canVote) {
             onOpenChange(false);
             return;
@@ -44,6 +47,7 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
         }
 
         setError("");
+        submittingRef.current = true;
 
         const vote = {
             PK: `RACE${raceId}`,
@@ -53,13 +57,18 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
             RunnerName: `${runner?.RunnerName}`,
         };
 
-        await fetch("/api/vote", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(vote),
-        });
+        try {
+            await fetch("/api/vote", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(vote),
+            });
+        }
+        finally {
+            submittingRef.current = false;
+        }
 
         onOpenChange(false);
         await refreshUser();
