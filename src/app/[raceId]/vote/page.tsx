@@ -6,6 +6,7 @@ import { VoteContent } from './components/vote';
 import { CheckContent } from './components/check';
 import { User } from '@/types/user';
 import { RunnerListContent } from './components/runnerList';
+import Link from 'next/link';
 
 export default function VotePage() {
 
@@ -92,7 +93,20 @@ export default function VotePage() {
         <div className="mx-full">
 
             {/* ポイント残高 */}
-            <div className='bg-[#3E3F43] px-8 py-4 border-t-2 border-gray-500'>
+            <div className='flex flex-col bg-[#3E3F43] px-8 py-4 border-t-2 border-gray-500'>
+
+                {/* ユーザー名 */}
+                <div className='flex justify-end items-center'>
+                    <p className="text-secondary text-xl">
+                        {user?.UserName ?? (
+                            <Link href="/login" className="text-blue-500 underline">
+                                ログインしてください
+                            </Link>
+                        )}
+                    </p>
+                </div>
+
+                {/* 所持ポイント */}
                 <div className='flex justify-between items-center'>
                     <p className='text-secondary text-lg'>ポイント残高</p>
                     <p className='text-secondary text-xl'>{Math.floor(user?.Point ?? 0)} pt</p>
