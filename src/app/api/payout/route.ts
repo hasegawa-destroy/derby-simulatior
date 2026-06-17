@@ -35,10 +35,7 @@ export async function POST(request: NextRequest) {
 
         await Promise.all(
             payoutVotes.map(async (pv) => {
-                const payoutAmount =
-                    Number(pv.BetAmount) *
-                    (payoutOdds?.odds ?? 1);
-
+                const payoutAmount = Math.floor(Number(pv.BetAmount) * (payoutOdds?.odds ?? 1));
                 const userId = pv.PK.split("#")[1] + "#" + pv.PK.split("#")[2];
 
                 return changePoint(userId.split("USER")[1], payoutAmount);

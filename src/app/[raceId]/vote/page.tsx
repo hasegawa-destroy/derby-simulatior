@@ -95,7 +95,7 @@ export default function VotePage() {
             <div className='bg-[#3E3F43] px-8 py-4 border-t-2 border-gray-500'>
                 <div className='flex justify-between items-center'>
                     <p className='text-secondary text-lg'>ポイント残高</p>
-                    <p className='text-secondary text-xl'>{user?.Point ?? 0} pt</p>
+                    <p className='text-secondary text-xl'>{Math.floor(user?.Point ?? 0)} pt</p>
                 </div>
             </div>
 

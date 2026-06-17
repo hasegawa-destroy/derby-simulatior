@@ -47,13 +47,23 @@ export function PayoutCard({ race }: { race: Race }) {
             State: `${selectedRaceState}`,
         };
 
-        await fetch(`/api/race/${race.PK}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(changedRace),
-        });
+        try {
+            console.log("レース状態変更開始");
+
+            await fetch(`/api/race/${race.PK}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(changedRace),
+            });
+        }
+        finally {
+            console.log("レース状態変更終了");
+            console.log("現在のレース状態:");
+            console.log("レースID: " + race.PK);
+            console.log("レース状態: " + selectedRaceState);
+        }
     }
 
     // 払出
@@ -62,18 +72,22 @@ export function PayoutCard({ race }: { race: Race }) {
             (runner) => runner.SK === selectedRunner
         );
 
-        console.log(selected);
-
         if (selected == null || selected == undefined) return;
         selected.PK = selected.PK.split("#")[1];
 
-        await fetch("/api/payout", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(selected),
-        });
+        try {
+            console.log("払い出し処理開始");
+
+            await fetch("/api/payout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(selected),
+            });
+        } finally {
+            console.log("払い出し処理成功");
+        }
 
     };
 
