@@ -73,34 +73,34 @@ export function DeleteVoteDialog({ open, onOpenChange, vote, refreshUser, fetchO
 
                 <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md rounded-lg bg-white p-6 shadow-lg">
                     <div className='flex flex-col'>
-                        <Dialog.Title className="font-bold">投票を取り消しますか?</Dialog.Title>
+                        <Dialog.Title className="text-center text-xl font-bold mb-6">投票を取り消しますか?</Dialog.Title>
 
-                        <div className='mb-4'>
+                        <div className='mb-6'>
 
                             {/* 投票情報 */}
                             <div className='flex justify-between'>
-                                <p>{`${vote?.RunnerName}`}</p>
+                                <p className='text-lg'>出走者: {`${vote?.RunnerName}`}</p>
                             </div>
 
                             <div className='flex justify-between'>
-                                <p>{`${vote?.BetAmount}`}</p>
+                                <p className='text-lg'>投票ポイント: {`${vote?.BetAmount}`}</p>
                             </div>
                         </div>
 
                         {/* ボタン */}
-                        <div className='flex flex-col gap-2'>
+                        <div className='flex flex-col gap-3'>
                             <button
                                 onClick={() => {
                                     handleDeleteVote()
                                 }}
-                                className="px-4 py-2 bg-tertiary text-white rounded-full"
+                                className="px-4 py-2 bg-tertiary text-white text-xl font-semibold rounded-full"
                             >
                                 投票取消
                             </button>
 
                             <button
                                 onClick={() => onOpenChange(false)}
-                                className="px-4 py-2 bg-gray-200 rounded-full"
+                                className="px-4 py-2 bg-gray-200 text-xl font-semibold rounded-full"
                             >
                                 キャンセル
                             </button>

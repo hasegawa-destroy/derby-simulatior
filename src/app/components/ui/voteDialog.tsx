@@ -90,19 +90,19 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
 
                 <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md rounded-lg bg-white p-6 shadow-lg">
                     <div className='flex flex-col'>
-                        <Dialog.Title className="font-bold">単勝 オッズ</Dialog.Title>
+                        <Dialog.Title className="text-center text-xl font-bold mb-6">投票確認</Dialog.Title>
 
-                        <div className='mb-4'>
+                        <div className='mb-6'>
 
                             {/* 出走者情報 */}
                             <div className='flex justify-between'>
-                                <p>{`${runner?.RunnerName}`}</p>
-                                <p>{odds} 倍</p>
+                                <p className='text-lg font-semibold'>{`${runner?.RunnerName}`}</p>
+                                <p className='text-lg font-semibold'>{odds} 倍</p>
                             </div>
 
                             {/* 投票ポイント */}
                             <div className='flex justify-between py-4 items-center'>
-                                <p>投票ポイント</p>
+                                <p className='text-lg'>投票ポイント</p>
                                 <div className='flex gap-2'>
                                     <input
                                         type="text"
@@ -115,22 +115,22 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
                                                 setBet(v)
                                             }
                                         }}
-                                        className='w-24 border-2 border-gray-400 bg-gray-200 text-right px-2'
+                                        className='w-24 border-2 border-gray-400 bg-gray-200 text-right text-xl px-2'
                                     />
-                                    <p>pt</p>
+                                    <p className='text-lg font-semibold'>pt</p>
                                 </div>
                             </div>
 
                             {/* 払い戻しポイント */}
                             <div className='flex justify-between'>
-                                <p>払戻ポイント</p>
-                                <p>{payout}pt</p>
+                                <p className='text-lg'>払戻ポイント</p>
+                                <p className='text-xl font-semibold'>{payout}pt</p>
                             </div>
 
                             {/* 収支ポイント */}
                             <div className='flex justify-between'>
-                                <p>収支ポイント</p>
-                                <p className={profit >= 0 ? 'text-blue-500' : 'text-red-500'}>
+                                <p className='text-lg'>収支ポイント</p>
+                                <p className={`text-xl font-semibold ${profit >= 0 ? 'text-blue-500' : 'text-red-500'}`}>
                                     {profit}pt
                                 </p>
                             </div>
@@ -138,25 +138,25 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
 
                         {/* 投票時エラー */}
                         {error && (
-                            <p className="mt-2 text-sm text-red-500">
+                            <p className="mt-2 text-lg text-red-500">
                                 {error}
                             </p>
                         )}
 
                         {/* ボタン */}
-                        <div className='flex flex-col gap-2'>
+                        <div className='flex flex-col gap-3'>
                             <button
                                 onClick={() => {
                                     handleVote(betNumber)
                                 }}
-                                className="px-4 py-2 bg-tertiary text-white rounded-full"
+                                className="px-4 py-2 bg-tertiary text-white text-xl font-semibold rounded-full"
                             >
                                 確定
                             </button>
 
                             <button
                                 onClick={() => onOpenChange(false)}
-                                className="px-4 py-2 bg-gray-200 rounded-full"
+                                className="px-4 py-2 bg-gray-200 text-xl font-semibold rounded-full"
                             >
                                 閉じる
                             </button>
@@ -165,6 +165,6 @@ export function VoteDialog({ open, onOpenChange, runner, odds, raceId, point, ca
                 </Dialog.Content>
 
             </Dialog.Portal>
-        </Dialog.Root>
+        </Dialog.Root >
     )
 }
